@@ -47,7 +47,7 @@ class CrawlSpider999(scrapy.Spider):
         for link_list in self.list_of_items:
             for link in link_list:
                 if "/booster" not in link:
-                    clean_list.append(link)
+                    clean_list.append("999.md"+link)
         return {"links" : clean_list}
 
     def see_response(self, response):
