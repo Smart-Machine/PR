@@ -23,13 +23,12 @@ class Homework(scrapy.Spider):
 
     # The function that extracts the product details 
     def parse_item(self, response):
-        item = {
+        return {
             "title": response.xpath("//header[contains(@class, 'adPage__header')]/h1/text()").extract_first(),
             "price": response.xpath("//span[contains(@class, 'adPage__content__price-feature__prices__price__value')]/text()").extract_first() + response.xpath("//span[contains(@class, 'adPage__content__price-feature__prices__price__currency')]/text()").extract_first(),
             "location": "".join(response.xpath("//dl[contains(@class, 'adPage__content__region')]/dd/text()").extract()),
             "description": response.xpath("//div[contains(@class, 'adPage__content__description')]/text()").extract_first(),
         }
-        return item
 
 # The pipeline class which processes the items, by cleaning the data
 # and forwarding it into the desired queue (ITEM_LIST)
@@ -42,6 +41,7 @@ class ItemCollectorPipeline():
         for key, value in item.items():
             final_item[key] = value.strip().replace("\n", " ")
         ITEM_LIST.append(final_item)
+        return final_item
 
 # The entry point of the script
 if __name__ == "__main__":
