@@ -10,6 +10,8 @@ class CrawlSpider999(scrapy.Spider):
     list_of_items = []
     query_link = "https://999.md/ro/list/real-estate/apartments-and-rooms?page={}"
 
+    filename = "urls.txt"
+
     def start_requests(self, page_number="1", max_page_number=None):
         max_page_number = 10
 
@@ -29,8 +31,8 @@ class CrawlSpider999(scrapy.Spider):
             "//*[contains(@class, 'ads-list-photo-item-title')]/a/@href").extract()
         self.list_of_items.append(items)
 
-        if (response.meta.get("max_page_number") is not None and 
-            int(response.meta.get("page_number"))+1 > response.meta.get("max_page_number")):
+        if (response.meta.get("max_page_number") is not None and
+                int(response.meta.get("page_number"))+1 > response.meta.get("max_page_number")):
             return self.get_items()
 
         if response.meta.get("page_number") in response.xpath("//nav[contains(@class, 'paginator cf')]/ul/li/a/text()").extract():
@@ -53,12 +55,12 @@ class CrawlSpider999(scrapy.Spider):
             for link in link_list:
                 if "/booster" not in link:
                     clean_list.append("https://999.md"+link)
-        return {"links": clean_list}
 
-    def see_response(self, response):
-        from scrapy.shell import inspect_response
-        inspect_response(response, self)
-        return
+        with open(self.filename, "w") as file:
+            for link in clean_list:
+                file.write(link + "\n")
+
+        return {"links": clean_list}
 
 
 if __name__ == "__main__":
