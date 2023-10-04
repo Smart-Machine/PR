@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name" : "Fluent Python: Clear, Concise, and Effective Programming",
+    "author" : "Luciano Ramalho",
+    "price" : 39.95
+  },
+  {
+    "id": 2,
+    "name" : "Introducing Python: Modern Computing in Simple Packages",
+    "author" : "Bill Lubanovic",
+    "price" : 27.49
+  },
+  {
+    "id": 3,
+    "name": "Data Analysis Using R (Low Priced Edition): A Primer for Data Scientist",
+    "author": "Dr Dhaval Maheta",
+    "price": 6.75
+  },
+  {
+    "id": 4,
+    "name": "Guerrilla Data Analysis Using Microsoft Excel: Overcoming Crap Data and Excel Skirmishes",
+    "author": "Oz du Soleil, and , Bill Jelen",
+    "price": 32.07
+  },
+  {
+    "id": 5,
+    "name": "Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython",
+    "author": "William McKinney",
+    "price": 53.99
+  },
+  {
+    "id": 6,
+    "name": "Excel Data Analysis For Dummies (For Dummies (Computer/Tech))",
+    "author": "Paul McFedries",
+    "price": 24.49
+  }
+]
