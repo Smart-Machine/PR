@@ -5,10 +5,6 @@ import signal
 import sys
 import threading
 
-HOST = "127.0.0.1"
-PORT = 8086
-
-
 class WebServer:
     parallel_connection_number = 5
     received_bytes = 1024
@@ -16,9 +12,9 @@ class WebServer:
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.static_path = "static/"
-        self.template_path = "templates/"
-        self.products_path = "products/"
+        self.static_path = "webserver/static/"
+        self.template_path = "webserver/templates/"
+        self.products_path = "webserver/products/"
         self.server_socket = self.init_socket()
         signal.signal(signal.SIGINT, self.signal_handler)
 
@@ -81,12 +77,10 @@ class WebServer:
         self.generate_product_pages()
         with open(self.products_path + "pages/page-1.html", "r") as page:
             return page.read(), 200
-        return self.notfound_page_handler()
 
     def redirect_to_page(self, page_number):
         with open(self.products_path + f"pages/page-{page_number}.html", "r") as page:
             return page.read(), 200
-        return self.notfound_page_handler()
 
     def product_by_id_page_handler(self, id: str):
         products = None
@@ -123,7 +117,7 @@ class WebServer:
                     product2_price=products[index+1]["price"],
 
                     links="".join(
-                        f'<a href="http://{HOST}:{PORT}/{self.products_path}pages/page-{i}.html">{i}</a>'
+                        f'<a href="http://{self.host}:{self.port}/{self.products_path}pages/page-{i}.html">{i}</a>'
                         for i in range(1, int(len(products)/2)+1)),
                 ))
 
@@ -139,8 +133,3 @@ class WebServer:
             client_handler = threading.Thread(
                 target=self.request_handler, args=(client_socket,))
             client_handler.start()
-
-
-if __name__ == "__main__":
-    webserver = WebServer(HOST, PORT)
-    webserver.start()
