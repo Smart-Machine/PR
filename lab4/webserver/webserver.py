@@ -36,6 +36,9 @@ class WebServer:
 
         method = request_data_text.split("\n")[0].strip().split()[0]
         path = request_data_text.split("\n")[0].strip().split()[1]
+        if path == "/favicon.ico":
+            client_socket.close()
+            return
 
         response_content, response_code = self.match_path(path)
 

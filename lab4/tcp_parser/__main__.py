@@ -10,6 +10,6 @@ links = [
 ]
 
 tcp_parser = TCPParser(host, port, links)
-data_queue = tcp_parser.parse()
+data_queue = tcp_parser.scrape()
 for data in data_queue.queue:
     print(data)
