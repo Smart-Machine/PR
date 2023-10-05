@@ -5,6 +5,7 @@ import signal
 import sys
 import threading
 
+
 class WebServer:
     parallel_connection_number = 5
     received_bytes = 1024
