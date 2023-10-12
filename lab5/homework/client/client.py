@@ -116,7 +116,6 @@ class Client():
 
         if cmd == "/download" and arg:
             file_bytes = self.download_file(arg)
-            print("I AM HERE")
             if not file_bytes:
                 logging.info(f"File {arg} doesn't exist")
             else:
