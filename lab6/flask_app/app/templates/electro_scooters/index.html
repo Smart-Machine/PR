@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Electric Scooter Store {% endblock %}
+
+{% block content %}
+            <div class="scooter-list">
+                {% for es in electro_scooters %}
+                    <div class="scooter">
+                        <h4>{{ es.name }}</h4>
+                        <p>{{ es.battery_level }}</p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+{% endblock %}
