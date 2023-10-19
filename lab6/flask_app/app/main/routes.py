@@ -1,7 +1,7 @@
-from flask import render_template
+from flask import jsonify 
 from app.main import bp
 
 
 @bp.route("/")
 def index():
-    return render_template("index.html")
+    return jsonify({"message": "Electric Scooters API"}), 200 
