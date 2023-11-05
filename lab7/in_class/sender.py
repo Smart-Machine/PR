@@ -127,7 +127,7 @@ if __name__ == "__main__":
         "USER_AGENT": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)",
         "ITEM_PIPELINES": {
             "__main__.ItemCollectorPipeline": 100,
-            "__main__.ItemPublisherPipeline": 200,     
+            "__main__.ItemPublisherPipeline": 200,
         },
     })
     process.crawl(CrawlSpider999)
