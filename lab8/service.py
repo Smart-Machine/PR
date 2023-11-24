@@ -25,7 +25,7 @@ cli = sys.modules['flask.cli']
 cli.show_server_banner = lambda *x: None
 
 db_name = 'dogs'
-if not node.leader:
+if not node.is_leader:
     db_name += str(random.randint(1, 3))
 
 app = Flask(__name__)
@@ -35,7 +35,7 @@ db.init_app(app)
 
 @app.route("/api/dog", methods=["GET"])
 def get_dogs():
-    dogs = dog.query.all()
+    dogs = Dog.query.all()
     response = {"dog": []}
 
     if len(dogs) != 0:
@@ -68,7 +68,7 @@ def get_dog_by_id(dog_id):
 @app.route("/api/dog", methods=["POST"])
 def create_dog():
     headers = dict(request.headers)
-    if not node.leader and headers.get("Token") != "Leader":
+    if not node.is_leader and headers.get("Token") != "Leader":
         return {
             "message": "Access denied!"
         }, 403
@@ -82,7 +82,7 @@ def create_dog():
             db.session.add(dog)
             db.session.commit()
 
-            if node.leader:
+            if node.is_leader:
                 for follower in node.followers:
                     requests.post(f"http://{follower['host']}:{follower['port']}/api/dog",
                                   json=request.json,
@@ -96,7 +96,7 @@ def create_dog():
 @app.route("/api/dog/<int:dog_id>", methods=["PUT"])
 def update_dog_by_id(dog_id):
     headers = dict(request.headers)
-    if not node.leader and headers.get("Token") != "Leader":
+    if not node.is_leader and headers.get("Token") != "Leader":
         return {
             "message": "Access denied!"
         }, 403
@@ -111,7 +111,7 @@ def update_dog_by_id(dog_id):
 
                 db.session.commit()
 
-                if node.leader:
+                if node.is_leader:
                     for follower in node.followers:
                         requests.put(f"http://{follower['host']}:{follower['port']}/api/dog/{dog_id}",
                                      json=request.json,
@@ -127,7 +127,7 @@ def update_dog_by_id(dog_id):
 @app.route("/api/dog/<int:dog_id>", methods=["DELETE"])
 def delete_dog_by_id(dog_id):
     headers = dict(request.headers)
-    if not node.leader and headers.get("Token") != "Leader":
+    if not node.is_leader and headers.get("Token") != "Leader":
         return {
             "message": "Access denied!"
         }, 403
@@ -141,7 +141,7 @@ def delete_dog_by_id(dog_id):
                     db.session.delete(dog)
                     db.session.commit()
 
-                    if node.leader:
+                    if node.is_leader:
                         for follower in node.followers:
                             requests.delete(f"http://{follower['host']}:{follower['port']}/api/dog/{dog_id}",
                                             headers={"Token": "Leader", "Auth": "confirm-deletion"})

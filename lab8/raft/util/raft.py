@@ -1,3 +1,4 @@
+import uuid
 import json
 import socket
 from raft.models.node import Node
@@ -63,6 +64,6 @@ class RAFTFactory:
     
     def create_server(self):
         if self.role == "leader":
-            return Node(True, self.followers)
+            return Node(uuid.uuid4(), True, self.followers)
         else:
-            return Node(False)
+            return Node(uuid.uuid4(), False)
